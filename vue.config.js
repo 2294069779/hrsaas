@@ -35,6 +35,13 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
+    },
+    // 代理配置
+    proxy: {
+      '/api': {
+        target: 'http://ihrm-java.itheima.net/',
+        changeOrigin: true
+      }
     }
 
   },
