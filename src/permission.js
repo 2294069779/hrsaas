@@ -1,4 +1,4 @@
-// import router from './router'
+3// import router from './router'
 // import store from './store'
 // import { Message } from 'element-ui'
 // import NProgress from 'nprogress' // progress bar
@@ -64,3 +64,38 @@
 // })
 
 // 自己构建
+// 权限拦截 导航守卫 导航守卫
+import router from '@/router' // 引入路由实例
+import store from '@/store' // 引入vuex store实例
+import nprogress from 'nprogress' // 引入一份进度条插件
+import 'nprogress/nprogress.css' // 引入进度条样式
+
+// 定义白名单 所有不受权限控制的页面
+const whiteList = ['/login', '/404']
+// 路由的前置守卫
+router.beforeEach(async function(to, from, next) {
+// 路由实例 to
+  nprogress.start()
+  if (store.getters.token) { // 判断是否有token
+    if (to.path === '/login') { // 判断是否在登入页
+      next('/') //
+    } else {
+      if (!store.getters.userId) {
+        await store.dispatch('user/getUserInfo') // 使用await让它等待，这是个异步函数，不然会跳过执行next
+      }
+      next()
+    }
+  } else {
+    if (whiteList.indexOf(to.path) > -1) { // 判断白名单里是否有
+      next()
+    } else {
+      next('/login')
+    }
+  }
+  nprogress.done() // 手动强制关闭一次 ，为了解决 手动切换地址时 进度条的不关闭的问题
+})
+
+// 后置守卫
+router.afterEach(function() {
+  nprogress.done() // 关闭进度条
+})

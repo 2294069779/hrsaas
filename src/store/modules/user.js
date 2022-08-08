@@ -98,11 +98,13 @@
 // }
 
 // 自己构建
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login } from '@/api/user'
+import { getToken, setToken, removeToken, setTimeStap } from '@/utils/auth'
+import { login, getUserInfo, getUserDeatilById } from '@/api/user'
 
 const state = {
-  token: getToken()
+  token: getToken(),
+  userInfo: {} // 定义个空对象，因为后边我要开发userInfo的属性给别人用
+
 }
 const mutations = {
   setToken(state, token) {
@@ -112,6 +114,14 @@ const mutations = {
   removeToken(state) {
     state.token = null
     removeToken()
+  },
+  // 将修改的值写入state中
+  setUserInfo(state, userInfo) {
+    state.userInfo = { ...userInfo } // 用形参来浅拷贝的方式去赋值对象，是响应式的
+  },
+  // 删除state中的用户信息
+  removeUserInfo(state) {
+    state.userInfo = {}
   }
 
 }
@@ -123,6 +133,22 @@ const actions = {
     // 现在有用户token
     // actions 修改state 必须通过mutations
     context.commit('setToken', result)
+    // 写入时间戳
+    setTimeStap()
+  },
+  // 获取用户资料
+  async getUserInfo(context) {
+    const result = await getUserInfo() // 调用getuserInfo方法
+    const baseInfo = await getUserDeatilById(result.userId) // 为了获取头像
+    context.commit('setUserInfo', { ...result, ...baseInfo }) // 两个结果合并
+    return result //
+  },
+  // 登出的actio
+  logout(context) {
+    // 删除token
+    context.commit('removeToken')
+    // 删除用户资料
+    context.commit('removeUserInfo')
   }
 }
 export default {

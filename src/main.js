@@ -7,13 +7,15 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 import '@/styles/index.scss' // global css
+// 注册自定义指令
 
+import * as directives from '@/directives'
 import App from './App'
 import store from './store'
 import router from './router'
 
 import '@/icons' // icon
-import '@/permission' // permission control
+import '@/permission' // 引入导航守卫，路由
 
 /**
  * If you don't want to use mock-server
@@ -34,6 +36,12 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+
+// 遍历所有的导出的指令对象 完成自定义全局注册
+Object.keys(directives).forEach(key => {
+  // 注册自定义指令
+  Vue.directive(key, directives[key])
+})
 
 new Vue({
   el: '#app',
