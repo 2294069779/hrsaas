@@ -75,20 +75,8 @@ export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      // if (!validUsername(value)) {
-      //   callback(new Error('Please enter the correct user name'))
-      // } else {
-      //   callback()
-      // }
       validmobile(value) ? callback() : callback(new Error('手机格式不正确'))
     }
-    // const validatePassword = (rule, value, callback) => {
-    //   if (value.length < 6) {
-    //     callback(new Error('The password can not be less than 6 digits'))
-    //   } else {
-    //     callback()
-    //   }
-    // }
     return {
       loginForm: {
         mobile: '13800000002',
@@ -130,23 +118,6 @@ export default {
       })
     },
     handleLogin() {
-      // this.$refs.loginForm.validate((valid) => {
-      //   if (valid) {
-      //     this.loading = true
-      //     this.$store
-      //       .dispatch('user/login', this.loginForm)
-      //       .then(() => {
-      //         this.$router.push({ path: this.redirect || '/' })
-      //         this.loading = false
-      //       })
-      //       .catch(() => {
-      //         this.loading = false
-      //       })
-      //   } else {
-      //     console.log('error submit!!')
-      //     return false
-      //   }
-      // })
       this.$refs.loginForm.validate(async isok => {
         if (isok) {
           try {
