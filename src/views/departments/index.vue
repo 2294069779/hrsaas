@@ -2,51 +2,38 @@
   <div class="dashboard-container">
     <div class="app-container">
       <el-card class="tree-card">
-        <!-- 用一个行列 -->
-        <tree-tools :tree-node="company" :is-root="true" @addDepts="addDeptsindex" />
-        <el-tree :data="departs" :props="defaultProps" :default-expand-all="true">
-          <tree-tools slot-scope="{ data }" :tree-node="data" @addDepts="addDeptsindex" @delDepts="getDepartments" />
+        <treeTools :tree-node="company" :is-root="true" />
+        <el-tree :data="departs" :props="defaultProps" default-expand-all>
+          <treeTools slot-scope="{ data }" :tree-node="data" />
         </el-tree>
       </el-card>
+
     </div>
-    <adddept :show-dialog="showDialog" />
   </div>
 </template>
 
 <script>
-import TreeTools from './components/tree-tools.vue'
-import { getDepartments } from '@/api/departments'
-import { tranlist } from '@/utils/index'
-import adddept from './components/add-dept.vue'
+import treeTools from './components/tree-tools'
+
 export default {
   components: {
-    TreeTools,
-    adddept
+    treeTools
   },
   data() {
     return {
-      company: {},
-      departs: [],
+      company: { name: '某某开发学习公司', manager: '负责人' },
+      departs: [
+        {
+          name: '总裁办',
+          manager: '曹操',
+          children: [{ name: '董事会', manager: '曹丕' }]
+        },
+        { name: '行政部', manager: '刘备' },
+        { name: '人事部', manager: '孙权' }
+      ],
       defaultProps: {
         label: 'name' // 表示 从这个属性显示内容
-      },
-      showDialog: false,
-      node: null // 记录当前点击的node节点
-    }
-  },
-  created() {
-    this.getDepartments() // 调用自身的方法
-  },
-  methods: {
-    async getDepartments() {
-      const result = await getDepartments()
-      this.company = { name: result.companyName, managet: '负责人' }
-      this.departs = tranlist(result.depts, '')
-      console.log(result)
-    },
-    addDeptsindex(node) {
-      this.showDialog = true
-      this.node = node
+      }
     }
   }
 }
