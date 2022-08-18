@@ -16,6 +16,8 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // 引入导航守卫，路由
+import Component from '@/components' // 全局组件
+import * as filters from '@/utils/filters' // 过滤器
 
 /**
  * If you don't want to use mock-server
@@ -35,12 +37,18 @@ Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
 
+Vue.use(Component)
+
 Vue.config.productionTip = false
 
 // 遍历所有的导出的指令对象 完成自定义全局注册
 Object.keys(directives).forEach(key => {
   // 注册自定义指令
   Vue.directive(key, directives[key])
+})
+// 注册 过滤器
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
 })
 
 new Vue({

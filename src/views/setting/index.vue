@@ -1,5 +1,7 @@
+// 公司设置
+
 <template>
-  <div class="dashboard-container">
+  <div v-loading="loading" class="dashboard-container">
     <div class="app-container">
       <el-card>
         <el-tabs>
@@ -81,7 +83,8 @@ export default {
       showDialog: false, // 控制弹层显示
       roleForm: {},
       rules: { name: [{ required: true, message: '角色名称为空', trigger: 'blur' }] },
-      title: '编辑功能'
+      title: '编辑功能',
+      loading: false
     }
   },
   computed: {
@@ -93,9 +96,11 @@ export default {
   },
   methods: {
     async getRoleList() {
+      this.loading = true
       const { total, rows } = await getRoleList(this.page)
       this.page.total = parseInt(total)
       this.list = rows
+      this.loading = false
     },
     changePage(newPage) {
       // newPage是当前点击的页码

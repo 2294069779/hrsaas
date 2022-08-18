@@ -1,14 +1,18 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <h2>
-        审批
-      </h2>
+
+      <PageTools :show-before="true">
+        <span slot="before">nihao</span>
+        <el-button slot="after" type="primary">ni</el-button>
+      </PageTools>
+
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
 
 }

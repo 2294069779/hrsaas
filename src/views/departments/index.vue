@@ -1,5 +1,6 @@
+// 组织结构
 <template>
-  <div class="dashboard-container">
+  <div v-loading="loading" class="dashboard-container">
     <div class="app-container">
       <el-card class="tree-card">
         <treeTools :tree-node="company" :is-root="true" @addDepts="addDepts" />
@@ -32,17 +33,21 @@ export default {
         label: 'name' // 表示 从这个属性显示内容
       },
       showDialog: false,
-      node: null
+      node: null,
+      loading: false // 用来控制进度弹层的显示和隐藏
     }
   },
   created() {
     this.getDepartments()
   },
   methods: {
+
     async getDepartments() {
+      this.loading = true
       const result = await getDepartments()
       this.company = { name: result.companyName, manager: '负责人', id: '' }
       this.departs = tranlist(result.depts, '')
+      this.loading = false
     },
     addDepts(node) {
       this.showDialog = true
