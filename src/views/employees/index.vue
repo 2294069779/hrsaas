@@ -5,9 +5,9 @@
       <PageTools :show-before="true">
         <span slot="before">共有{{ page.total }}条员工信息</span>
         <template v-slot:after>
-          <el-button size="samll" type="warning">导入</el-button>
-          <el-button size="samll" type="danger">导出</el-button>
-          <el-button size="samll" type="primary">新增员工</el-button>
+          <el-button size="samll" type="warning" @click="$router.push('/import')">excel导入</el-button>
+          <el-button size="samll" type="danger">excel导出</el-button>
+          <el-button size="samll" type="primary" @click="showDialog=true">新增员工</el-button>
         </template>
       </PageTools>
 
@@ -16,6 +16,7 @@
           <el-table-column label="序号" sortable="" type="index" />
           <el-table-column label="姓名" sortable="" prop="username" />
           <el-table-column label="工号" sortable="" prop="workNumber" />
+          <el-table-column label="手机号" sortable="" prop="mobile" />
           <el-table-column label="聘用形式" sortable="" prop="formOfEmployment" :formatter="formatEmployment" />
           <el-table-column label="部门" sortable="" prop="departmentName" />
           <el-table-column label="入职时间" sortable="" prop="timeOfEntry">
@@ -30,7 +31,7 @@
           </el-table-column>
           <el-table-column label="操作" sortable="" fixed="right" width="280">
             <template v-slot="{ row }">
-              <el-button type="text" size="small">查看</el-button>
+              <el-button type="text" size="small" @click="$router.push(`/employess/detail/${row.id}`)">查看</el-button>
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
@@ -45,6 +46,8 @@
         </el-row>
       </el-card>
 
+      <addDemployee :show-dialog.sync="showDialog" />
+
     </div>
   </div>
 </template>
@@ -52,7 +55,12 @@
 <script>
 import { getEmployeeList, delEmployee } from '@/api/employess'
 import EmployeeEnum from '@/utils/constant/employees'
+import addDemployee from './components/add-employess.vue'
 export default {
+  components: {
+    addDemployee
+
+  },
   data() {
     return {
       loading: false,
@@ -61,10 +69,12 @@ export default {
         page: 1,
         size: 10,
         total: 0
-      }
+      },
+      showDialog: false
 
     }
   },
+
   created() {
     this.getEmployeeList() // 获取员工基本信息
   },
@@ -75,6 +85,7 @@ export default {
       this.page.total = total
       this.list = rows
       this.loading = false
+      console.log(this.list)
     },
     // 分页改变
     changePage(newpage) {
