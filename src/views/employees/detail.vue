@@ -2,6 +2,7 @@
   <div class="dashboard-container">
     <div class="app-container">
       <el-card>
+
         <el-tabs>
           <el-tab-pane label="登录账号设置">
             <el-form ref="userForm" :model="userInfo" :rules="rules" label-width="120px" style="margin-left: 120px; margin-top:30px">
@@ -18,11 +19,24 @@
           </el-tab-pane>
           <el-tab-pane label="个人详情">
             <!-- 放置个人详情 -->
+            <el-row type="flex" justify="end">
+              <el-tooltip content="打印个人基本信息">
+                <router-link :to="`/employees/print/${userId}?type=personal`">
+                  <i class="el-icon-printer" />
+                </router-link>
+              </el-tooltip>
+            </el-row>
             <component :is="userComponent" />
             <!-- <user-info /> -->
           </el-tab-pane>
           <el-tab-pane label="岗位详情">
-            <!-- 放置岗位详情 -->
+            <el-row type="flex" justify="end">
+              <el-tooltip content="打印岗位信息">
+                <router-link :to="`/employees/print/${userId}?type=job`">
+                  <i class="el-icon-printer" />
+                </router-link>
+              </el-tooltip>
+            </el-row>
             <component :is="JobInfo" />
           </el-tab-pane>
         </el-tabs>
