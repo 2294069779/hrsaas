@@ -46,7 +46,7 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
+              <el-button type="text" size="small" @click="editRole(row.id)">角色</el-button>
               <el-button type="text" size="small" @click="deleteEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -64,6 +64,7 @@
         </el-row>
       </el-dialog>
 
+      <assignRole ref="assignRole" :show-role-dialog.sync="showRoleDialog" :user-id="userId" />
     </div>
   </div>
 </template>
@@ -72,11 +73,12 @@
 import { getEmployeeList, delEmployee } from '@/api/employess'
 import EmployeeEnum from '@/utils/constant/employees'
 import addDemployee from './components/add-employess.vue'
+import assignRole from './components/assign-role'
 import QrCode from 'qrcode'
 export default {
   components: {
-    addDemployee
-
+    addDemployee,
+    assignRole
   },
   data() {
     return {
@@ -87,8 +89,10 @@ export default {
         size: 10,
         total: 0
       },
+      userId: '',
       showDialog: false,
-      showCodeDialog: false
+      showCodeDialog: false,
+      showRoleDialog: false
 
     }
   },
@@ -104,6 +108,11 @@ export default {
       this.list = rows
       this.loading = false
       console.log(this.list)
+    },
+    async editRole(id) { // 分配角色
+      this.userId = id
+      await this.$refs.assignRole.getUserDeatilById(id)
+      this.showRoleDialog = true
     },
     // 分页改变
     changePage(newpage) {
