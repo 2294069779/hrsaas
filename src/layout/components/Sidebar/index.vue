@@ -29,6 +29,7 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar'
+      // 'routes'
     ]),
     routes() {
       return this.$router.options.routes

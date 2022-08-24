@@ -115,7 +115,6 @@ export default {
     },
     // 点击确定时触发
     btnOK() {
-      console.log('1')
       this.$refs.deptFrom.validate(async isOK => {
         if (isOK) {
           // 表示可以提交了

@@ -107,7 +107,6 @@ export default {
       this.page.total = total
       this.list = rows
       this.loading = false
-      console.log(this.list)
     },
     async editRole(id) { // 分配角色
       this.userId = id
@@ -149,13 +148,6 @@ export default {
       } else {
         this.$message.warning('该用户还未上传头像')
       }
-    //   console.log(url + '1')
-    //   if (url) {
-    //     this.showCodeDialog = true
-    //     console.log(url + '2')
-    //   } else {
-    //     console.log(url + '3')
-    //   }
     }
 
   }

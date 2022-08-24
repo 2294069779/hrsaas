@@ -60,7 +60,6 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
       // console.log(this.staffPhoto)
-      console.log(this.defaultImg)
     },
     async logout() {
       await this.$store.dispatch('user/logout')

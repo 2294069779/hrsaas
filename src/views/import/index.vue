@@ -12,8 +12,6 @@ export default {
   },
   methods: {
     async  success({ header, results }) {
-      debugger
-      console.log(1)
       const userRelations = {
         '入职日期': 'timeOfEntry',
         '手机号': 'mobile',
@@ -36,7 +34,6 @@ export default {
         })
         // 最终userInfo变成了全是英文
         arr.push(userInfo)
-        console.log(arr)
       })
       await importEmployee(arr)
       this.$message.success('导入成功')

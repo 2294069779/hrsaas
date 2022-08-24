@@ -4,7 +4,7 @@ export default {
   path: '/setting', // 路径
   // 每个子模块都是layout 组件位于layout的二级路由里面
   component: Layout,
-  name: 'setting', // 给路由规则加一个name
+  name: 'settings', // 给路由规则加一个name
   children: [{
     path: '',
     component: () => import('@/views/setting'),

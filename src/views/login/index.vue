@@ -126,7 +126,7 @@ export default {
             await this['user/login'](this.loginForm)
             this.$router.push('/')
           } catch (error) {
-            console.log(error)
+            this.$message.error(error)
           } finally {
             //  不论执行try 还是catch  都去关闭转圈
             this.loading = false
